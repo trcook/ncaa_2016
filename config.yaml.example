@@ -1,0 +1,5 @@
+
+path_to_NCAA: '~/path/to/NCAA'
+# should be path to NCAA folder on google drive
+repository_location: '~/path/to/repo'
+# this should be the path to the folder that this file is in -- the root of the ncaa_2016 git repository

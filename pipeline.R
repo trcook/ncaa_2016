@@ -43,7 +43,7 @@ gsub(x,pattern='.*\\.([^\\.]+?)$',replacement='\\1')
 
 
 load_data<-function(){
-if(is.null(options('data_recipe'))==T){
+if(is.null(options('data_to_load'))){
 	setup_opts()
 }
 
@@ -72,6 +72,9 @@ run_models<-function(){
 	}
 
 
+
+setup_opts()
+setup_location_func()
 
 # Run the requisite functions
 load_data()

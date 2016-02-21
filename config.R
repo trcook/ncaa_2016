@@ -21,9 +21,9 @@ data_building_recipe=list(
 data_to_load=list(
 	
 	#Define paths and file names
-	kaggle.submission.file <- "2016_competition/data_2016_specific/kaggle_dataset/SampleSubmission.rds",
-	season.file <- "2016_competition/data_2016_specific/kaggle_dataset/RegularSeasonDetailedResults.csv",
-	tourney.file <- "2016_competition/data_2016_specific/kaggle_dataset/TourneyCompactResults.csv"
+	kaggle.submission.file = "2016_competition/data_2016_specific/kaggle_dataset/SampleSubmission.rds",
+	season.file ="2016_competition/data_2016_specific/kaggle_dataset/RegularSeasonDetailedResults.csv",
+	tourney.file = "2016_competition/data_2016_specific/kaggle_dataset/TourneyCompactResults.csv"
 	)
 
 )

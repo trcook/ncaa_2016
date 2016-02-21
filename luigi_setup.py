@@ -113,7 +113,7 @@ LOGGO.setLevel(logging.DEBUG)
 class MyRTask(RTask):
     working_files=luigi.Parameter()
     def rscript(self):
-        return('./pipeline.R')
+        return('./data_loader.R')
     def arguments(self):
         return self.working_files
 

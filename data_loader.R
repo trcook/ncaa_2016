@@ -33,16 +33,20 @@ ncaa_wd<-partial(file.path,options("path_to_NCAA"))
 # The repo_wd function will produce a file path relative to the NCAA folder on your machine, based on the config.yaml file settings. Example: wd('2016_competition/data_2016_specific/') produces '/Users/tom/Google Drive/NCAA/2016_competition/data_2016_specific/'. This is used to specify file locations relative to the NCAA folder without needing to switch directories from the git repo
 repo_wd<-partial(file.path,options("repository_location"))
 
-
+# load files based on data recipe
 
 print(args)
 
-for(i in seq_along(args)){
-		nam<-names(args)[i]
-		fil<-args[i]
+#' This will load in all the files named in the config.yaml file under the data recipe/dat_load section
 
-	eval(substitute(nam<-readRDS(fil),env=list(nam=as.name(nam),fil=ncaa_wd(paste(fil,'.RDS',sep='')))))
+load_files<-function(){
+data_load<-config$data_recipe$data_load
+for(i in seq_along(data_load)){
+	nam<-data_load[[i]]$name
+	fil<-ncaa_wd(data_load[[i]]$path_relative_to_NCAA)
+	assign(nam,readRDS(fil),env=.GlobalEnv)
+}
 }
 
 
-save.image(file=repo_wd('working_data.rda'))
+

@@ -111,9 +111,11 @@ LOGGO.setLevel(logging.DEBUG)
 #   config=yaml.load(f)
 
 class MyRTask(RTask):
+    working_files=luigi.Parameter()
     def rscript(self):
         return('./pipeline.R')
-
+    def arguments(self):
+        return self.working_files
 
 class TargetFactory():
     @classmethod

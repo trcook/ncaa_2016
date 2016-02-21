@@ -43,7 +43,7 @@ gsub(x,pattern='.*\\.([^\\.]+?)$',replacement='\\1')
 
 
 load_data<-function(){
-if(!is.null(options('data_recipe'))){
+if(is.null(options('data_recipe'))==T){
 	setup_opts()
 }
 

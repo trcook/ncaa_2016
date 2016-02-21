@@ -19,9 +19,11 @@ data_building_recipe=list(
 
 # these files should be specified relative to the NCAA folder
 data_to_load=list(
-	dat1="2016_competition/data_2016_specific/kaggle_dataset/TourneyCompactResults.rds",
-	dat1_csv='2016_competition/data_2016_specific/kaggle_dataset/TourneyCompactResults.csv',
-	another_dat='2016_competition/data_2016_specific/kaggle_dataset/TourneyDetailedResults.rds'
+	
+	#Define paths and file names
+	kaggle.submission.file <- "2016_competition/data_2016_specific/kaggle_dataset/SampleSubmission.rds",
+	season.file <- "2016_competition/data_2016_specific/kaggle_dataset/RegularSeasonDetailedResults.csv",
+	tourney.file <- "2016_competition/data_2016_specific/kaggle_dataset/TourneyCompactResults.csv"
 	)
 
 )

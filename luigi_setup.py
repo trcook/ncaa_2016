@@ -12,6 +12,16 @@ from luigi import LocalTarget
 import subprocess
 import os
 
+# Some basic debugging stuff
+LOGGO = logging.getLogger('loggo')
+LD = LOGGO.debug
+logging.basicConfig(format='[%(asctime)s %(levelname)s] %(message)s',
+                    level=logging.DEBUG,
+                    datefmt='%H:%M:%S')
+LOGGO.setLevel(logging.DEBUG)
+
+
+
 class RTask(luigi.Task):
     """
     Luigi Task to run an R script.
@@ -44,6 +54,7 @@ class RTask(luigi.Task):
         The output for this Task. Returns the output token
         by default, so the task only runs if the token does not 
         already exist.
+        Override this with an actual file if your task produces a known output file
         :rtype: Target:
         :returns: Target for Task completion token
         """
@@ -98,24 +109,11 @@ class RTask(luigi.Task):
        return "Rscript %s %s" % (self.rscript(), " ".join(self.arguments()))
 
 
-# Some basic debugging stuff
-LOGGO = logging.getLogger('loggo')
-LD = LOGGO.debug
-logging.basicConfig(format='[%(asctime)s %(levelname)s] %(message)s',
-                    level=logging.DEBUG,
-                    datefmt='%H:%M:%S')
-LOGGO.setLevel(logging.DEBUG)
 
 
 # with open('./config.yaml','rb') as f:
 #   config=yaml.load(f)
 
-class MyRTask(RTask):
-    working_files=luigi.Parameter()
-    def rscript(self):
-        return('./data_loader.R')
-    def arguments(self):
-        return self.working_files
 
 class TargetFactory():
     @classmethod

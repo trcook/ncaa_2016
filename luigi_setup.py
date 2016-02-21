@@ -24,8 +24,10 @@ class RTask(luigi.Task):
     # Location where completion tokens are written
     # e.g. s3://my-bucket/my-path
     # token_path = luigi.Parameter()
-    token_path = os.getcwd()
-    
+
+    token_path = os.path.join(os.getcwd(),'completions')
+    if not os.path.exists(token_path):
+        os.makedirs(token_path)
 
     
     def output_token(self):

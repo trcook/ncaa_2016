@@ -1,5 +1,20 @@
+---
+
 
 path_to_NCAA: '~/path/to/NCAA'
 # should be path to NCAA folder on google drive
 repository_location: '~/path/to/repo'
 # this should be the path to the folder that this file is in -- the root of the ncaa_2016 git repository
+
+
+data_recipe:
+  data_load:
+    - name: "cbs"
+      path_relative_to_NCAAA: "General_Data/cbs.rds"
+  builder_files:
+    - path_relative_to_repo_root: "data_building/builder_script.R"
+
+---
+
+
+

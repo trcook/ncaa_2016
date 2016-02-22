@@ -43,7 +43,7 @@ last.training.season: 2009
 
 first.validation.season: 2010
 last.validation.season: 2015
-training_split=.3
+training_split:.3
 
 data_building_files:
 - data_building/other_scripts.R 

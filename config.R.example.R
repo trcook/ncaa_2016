@@ -32,7 +32,7 @@ data_recipe <- list(
 	),
 	#Define training period for features
 	first.training.season = 2005,
-	last.training.season = 2011,
+	last.training.season = 2009,
 	first.validation.season=2010,
 	last.validation.season=2015,
 	training_split=.3

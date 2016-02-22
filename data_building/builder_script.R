@@ -7,8 +7,7 @@ last.training.season <- 2011
 getTourneyData <- function(tourney.file, first.season=options("first.training.season"), last.season=options("last.training.season")){
   # tourney.file <- read.csv(tourney.file)
   #get the correct seasons
-  tourney.file <- tourney.file[ which(tourney.file$Season >= first.season & tourney.file$Season <= last.season), ]
-  
+  #tourney.file <- tourney.file[ which(tourney.file$Season >= first.season & tourney.file$Season <= last.season), ] # -- moved this functionality to later functions
   #the data structure has no variance because it is focused on the outcome, so re-order columns according to team number rather than game outcome
   tourney.file$Team1 <- apply(tourney.file[, c("Wteam", "Lteam")], 1, function(x) x[which.min(x)] ) #define team 1 
   tourney.file$Team2 <- apply(tourney.file[, c("Wteam", "Lteam")], 1, function(x) x[which.max(x)] ) #define team 2
@@ -19,8 +18,6 @@ getTourneyData <- function(tourney.file, first.season=options("first.training.se
   tourney.file <- tourney.file[, c("Season", "Daynum", "Team1", "Team2", "Team1score", "Team2score", "win", "Numot")]
   return(tourney.file)
 }
-
-tourneydata <- getTourneyData(tourney.file)
 
 #get feature and merge it into the desired tourney training/testing file for analysis
 getFeature <- function(feature_df, tourneydata, featurename=featurename){
@@ -47,5 +44,36 @@ for(i in seq_along(x)){
 	}
 }
 
+test_train_validate_split<-function(
+	dat=tourneydata,split_=.3, 
+	first.season=options("first.training.season")[[1]], 
+	last.season=options("last.training.season")[[1]],
+	last.validation.season=options("last.validation.season")[[1]],
+	first.validation.season=options("first.validation.season")[[1]]
+	){
+	dat<-data.table::data.table(dat)
+	vdat<-dat[Season<=last.validation.season&Season>=first.validation.season,]
+	tdat<-dat[Season<=last.season&Season>=first.season,]
+	if(is.null(options('training_split')[[1]])==F){
+		split_=as.numeric(options('training_split')[[1]])
+	}
+	if(split_<=0){
+	assign("training_data",tdat,envir = .GlobalEnv)
+	assign("test_data",NULL,envir=.GlobalEnv)
+	}
+	
+	obs<-sample(tdat[,c(1:.N)],ceiling(split_*tdat[,.N]))
+	assign("training_data",tdat[-obs,],envir = .GlobalEnv)
+	assign("test_data",tdat[obs,],envir=.GlobalEnv)
+	assign('validation_data',vdat,envir=.GlobalEnv)
+	return()
+}
+
+# now, run the actual functions:
+
+tourneydata <- getTourneyData(tourney.file)
+
 getFeature_list(options("features_to_add")[[1]])
 
+# This should be the last step since it will produce a split that incorporates all the requisite features. 
+test_train_validate_split()

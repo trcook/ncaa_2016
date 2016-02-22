@@ -65,3 +65,6 @@ these are files specified relative to the repo root. They are files you want to 
 
 these are the model building files that are run to generate model estimates. these scripts should expect an object called tourneydata and return a model object with a standard predict method. 
 
+## short-term changes
+
+in the short term I will edit the pipeline to take the tourneydata object and produce a train and validate datasets. I will also add a final step that takes the model object returned from model_files and use it to produce a kaggle-formatted submission file. 

@@ -34,7 +34,9 @@ create a config.yaml file that specifies the following:
 
 ```{yaml}
 
-# in yaml, comments begin with a hashtag.
+
+
+
 path_to_NCAA: ~/Google Drive/NCAA/
 repository_location: /s/Programming/NCAA_2016
 
@@ -68,7 +70,8 @@ features_to_add:
   # The name of the element here should correspond to the name of the name of
   # the column for the feature in the datafile (e.g. some_file.csv should have a
   # column named RPI).
-
+output_file: submission.csv
+# this is where the submission csv will be generated relative to repo root. 
 
 ```
 
@@ -140,6 +143,10 @@ and `validation_data`.
 these are the model building files that are run to generate model estimates.
 these scripts should expect an object called tourneydata and return a model
 object with a standard predict method.
+
+
+### output_file
+This is where the submission csv will be generated relative to repo root. 
 
 ## short-term changes
 

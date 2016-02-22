@@ -60,11 +60,12 @@ test_train_validate_split<-function(
 	if(split_<=0){
 	assign("training_data",tdat,envir = .GlobalEnv)
 	assign("test_data",NULL,envir=.GlobalEnv)
-	}
+	}else{
 	
 	obs<-sample(tdat[,c(1:.N)],ceiling(split_*tdat[,.N]))
 	assign("training_data",tdat[-obs,],envir = .GlobalEnv)
 	assign("test_data",tdat[obs,],envir=.GlobalEnv)
+	}
 	assign('validation_data',vdat,envir=.GlobalEnv)
 	return()
 }

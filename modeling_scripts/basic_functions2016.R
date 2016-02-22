@@ -3,21 +3,20 @@
 library(caret)
 library(reshape)
 library(parallel)
-setwd("/Volumes/TINY CRYPT/papers/Personal/NCAA/2016 Kaggle Data/march-machine-learning-mania-2016-v1")
 
 #Define paths and file names
-kaggle.submission.file <- "SampleSubmission.csv"
-season.file <- "RegularSeasonDetailedResults.csv"
-tourney.file <- "TourneyCompactResults.csv"
-seasons <- "2005-2016"
+# kaggle.submission.file <- "SampleSubmission.csv"
+# season.file <- "RegularSeasonDetailedResults.csv"
+# tourney.file <- "TourneyCompactResults.csv"
+# seasons <- "2005-2016"
 
 #Define training period for features
 first.training.season <- 2005
 last.training.season <- 2011
 
 #Get the season outcomes data and recode so that it has a more useable structure
-getTourneyData <- function(tourney.file, first.season=first.training.season, last.season=last.training.season){
-  df <- read.csv(tourney.file)
+getTourneyData <- function(df, first.season=first.training.season, last.season=last.training.season){
+  # df <- read.csv(tourney.file)
   #get the correct seasons
   df <- df[ which(df$Season >= first.season & df$Season <= last.season), ]
   

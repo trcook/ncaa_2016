@@ -1,8 +1,33 @@
+
+
+
 # ncaa_2016
 NCAA tournament pipeline
 
 
-To use: 
+
+# General principles
+
+* scripts that manipulate data should be placed in data_building
+	* builder_script.R should be last script specified in config (see below)
+	* should not directly load files or call directories -- pipeline.R will load requested files based on config file. 
+	* preceding building scripts should yield or pass object called `tourney.file`
+
+* scripts that run models should be placed in modeling_scripts
+	* should not directly load or list paths to  outside data or files. These will be provided by the preceeding data_building scripts and files specified in config
+	* scripts should be written to expect three objects already loaded into memory: `test_data`, `training_data`, and `validation_data`
+	* modeling_scripts should exit with an object called `model` in memory that can be used with predict
+		* pipeline will eventually take this `model` and produce validation data (i'll add this in tomorrow)
+* config file:
+	* can be R (longer and annoying to edit -- see config.R.example)
+	* can also be yaml (easier to write)
+	* pipeline.R will automatically write the config.yaml from config.R
+	* details on what goes in config file below.
+
+
+Run with `source("pipeline.R")` from R.
+
+# To use: 
 
 
 create a config.yaml file that specifies the following: 

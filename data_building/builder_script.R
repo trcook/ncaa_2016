@@ -15,7 +15,11 @@ getTourneyData <- function(tourney.file, first.season=options("first.training.se
   tourney.file$Team1score <- ifelse(tourney.file$code==1, tourney.file$Wscore, tourney.file$Lscore) 
   tourney.file$Team2score <- ifelse(tourney.file$code==1, tourney.file$Lscore, tourney.file$Wscore)
   tourney.file$win <- as.factor(ifelse(tourney.file$Team1score>tourney.file$Team2score, "win", "lose"))
-  tourney.file <- tourney.file[, c("Season", "Daynum", "Team1", "Team2", "Team1score", "Team2score", "win", "Numot")]
+  # I find it difficult to work with factors like this in modeling situations.
+    tourney.file$Team1win <-ifelse(tourney.file$Team1score>tourney.file$Team2score, 1, 0)
+
+  
+  tourney.file <- tourney.file[, c("Season", "Daynum", "Team1", "Team2", "Team1score", "Team2score", "win","Team1win", "Numot")]
   return(tourney.file)
 }
 

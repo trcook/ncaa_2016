@@ -60,7 +60,17 @@ run_list<-function(x){
 	}
 	}
 
-
+submission_output<-function(model_=model,validation_data_=validation_data,output_file_name=options('output_file')){
+	if(is.null(options('output_file')[[1]])){
+		output_file_name='submission.csv'
+	}
+	validation_data<-data.table(validation_data_)
+	validation_data[,Pred:=predict(model_,cbind(.SD),type='response')]
+	validation_data[,Id:=paste0(Season,'_',Team1,'_',Team2)]
+	out<-validation_data[,.(Id,Pred)]
+	write.csv(out,file=repo_wd(output_file_name),row.names = F)
+	return(out)
+}
 
 
 
@@ -84,5 +94,6 @@ run_list(options("data_building_files")[[1]])
 
 
 run_list(options("model_files")[[1]])
-#todo: output to submission format.
 
+
+submission_output(model_=model,validation_data_=validation_data,output_file_name=options('output_file'))

@@ -7,3 +7,5 @@ working_data.rda
 .Rproj.user
 NCAA_2016.Rproj
 .Rapp.history
+*.csv
+**/*.csv

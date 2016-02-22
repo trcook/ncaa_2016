@@ -43,7 +43,7 @@ data_recipe <- list(
 # Model Recipe:
 model_recipe <-
 	list(model_files = list(#this should be relative to the repository root
-		"modeling_scripts/analysis03142015.R"),
+		"modeling_scripts/sample_model.R"),
 			output_file='submission.csv'
 )
 

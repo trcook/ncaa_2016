@@ -1,7 +1,7 @@
 # do.call("options",yaml.load(as.yaml(c(base_config,data_recipe,model_recipe))))
 
 require(pryr)
-
+require(data.table)
 
 testObject<-function(object){
   exists(as.character(substitute(object)))

@@ -46,3 +46,6 @@ for(i in seq_along(x)){
 	assign("tourneydata",getFeature(feature_df = feat_df,tourneydata = tourneydata,featurename = feat_name),envir = .GlobalEnv)
 	}
 }
+
+getFeature_list(options("features_to_add")[[1]])
+

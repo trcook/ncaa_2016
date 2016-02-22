@@ -82,8 +82,6 @@ run_list(options("data_building_files")[[1]])
 
 
 
-getFeature_list(options("features_to_add")[[1]])
-
 
 run_list(options("model_files")[[1]])
 #todo: output to submission format.

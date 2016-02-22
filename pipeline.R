@@ -1,4 +1,4 @@
-
+# do.call("options",yaml.load(as.yaml(c(base_config,data_recipe,model_recipe))))
 
 require(pryr)
 
@@ -11,11 +11,14 @@ testObject<-function(object){
 #' This will put all the parts of the config.yaml into options by top-level key. 
 
 setup_opts<-function(){
-	source(file.path('./','config.R'))
-	for(j in list(base_config,data_recipe,model_recipe)){
-	for(i in seq_along(j)){
-		options(j[i])
-	}}
+	if(file.exists("config.yaml")){
+		options(yaml::yaml.load_file('config.yaml'))
+	}else{
+	sink("config.yaml")
+	cat(yaml::as.yaml(c(base_config,data_recipe,model_recipe)))
+	sink()
+	options(yaml::yaml.load_file('config.yaml'))
+	}
 
 	if(any(
 		is.null(options("path_to_NCAA")),
@@ -29,8 +32,8 @@ setup_opts<-function(){
 
 # functions to translate relative locations on different machines
 setup_location_func<-function(){
-	repo_wd<<-partial(file.path,options("repository_location"))
-	ncaa_wd<<-partial(file.path,options("path_to_NCAA"))
+	repo_wd<<-pryr::partial(file.path,options("repository_location"))
+	ncaa_wd<<-pryr::partial(file.path,options("path_to_NCAA"))
 
 }
 

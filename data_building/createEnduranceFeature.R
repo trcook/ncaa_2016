@@ -6,14 +6,14 @@ library(splines)
 #setwd("/Volumes/TINY CRYPT/papers/Personal/NCAA/2016 Kaggle Data/march-machine-learning-mania-2016-v1")
 
 #Define paths and file names
-kaggle.submission.file <- "SampleSubmission.csv"
-season.file <- "RegularSeasonDetailedResults.csv"
-tourney.file <- "TourneyCompactResults.csv"
-seasons <- "2005-2016"
+#kaggle.submission.file <- "SampleSubmission.csv"
+#season.file <- "RegularSeasonDetailedResults.csv"
+#tourney.file <- "TourneyCompactResults.csv"
+#seasons <- "2005-2016"
 
 #Define training period for features
-first.training.season <- 2005
-last.training.season <- 2016
+#first.training.season <- 2005
+#last.training.season <- 2016
 
 #Get the game number for each game
 daynum.funk <- function(x){

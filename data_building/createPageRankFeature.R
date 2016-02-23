@@ -5,16 +5,16 @@ library(caret)
 library(reshape)
 library(parallel)
 
-setwd("/Volumes/TINY CRYPT/papers/Personal/NCAA/2016 Kaggle Data/march-machine-learning-mania-2016-v1")
+#setwd("/Volumes/TINY CRYPT/papers/Personal/NCAA/2016 Kaggle Data/march-machine-learning-mania-2016-v1")
 
 #Define paths and file names
-kaggle.submission.file <- "SampleSubmission.csv"
-season.file <- "RegularSeasonCompactResults.csv"
-tourney.file <- "TourneyCompactResults.csv"
+#kaggle.submission.file <- "SampleSubmission.csv"
+#season.file <- "RegularSeasonCompactResults.csv"
+#tourney.file <- "TourneyCompactResults.csv"
 
 #Define training period for features
-first.training.season <- 2005
-last.training.season <- 2011
+#first.training.season <- 2005
+#last.training.season <- 2011
 
 makeRank <- function(x){
   pr <- page.rank(graph.data.frame(d=data.frame(from=x$Lteam, to=x$Wteam), directed=T ))$vector
@@ -32,7 +32,7 @@ doPageRank <- function(season.file, first.season=first.training.season, last.sea
   return(pr)
 }
 
-pr <- doPageRank(season.file)
+#pr <- doPageRank(season.file)
 
-write.csv(pr, "PageRankfeature.csv", row.names = F)
+#write.csv(pr, "PageRankfeature.csv", row.names = F)
 

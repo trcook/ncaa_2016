@@ -3,6 +3,7 @@ library(reshape)
 library(parallel)
 library(DAMisc)
 library(splines)
+library(lme4)
 #setwd("/Volumes/TINY CRYPT/papers/Personal/NCAA/2016 Kaggle Data/march-machine-learning-mania-2016-v1")
 
 #Define paths and file names
@@ -17,9 +18,20 @@ library(splines)
 
 #Get the game number for each game
 daynum.funk <- function(x){
+  
+  #Get consecutive game number for spell variable
   x <- x[order(x$Daynum), ]
   x$gamenum <- order(x$Daynum) #get the number of games played so far in the season
-  if(dim(x)[1]<3){x <- NULL}
+  
+  if(!is.null(x)){
+  #Get number of days since last game
+  if(dim(x)[1] >= 3){
+  n <- length(x$Daynum)
+  x$days.since.last.game <- x$Daynum - c(NA, x$Daynum[1:(n-1)])
+    }
+  }
+  #Remove teams that play less than 3 games
+  if(dim(x)[1] < 3){x <- NULL}
   return(x)
 }
 
@@ -50,7 +62,7 @@ createEnduranceScores <- function(season.file, first.season=first.training.seaso
   sp.itrain.dur <- lapply(sp.itrain.dur, function(x) btscs(x, event="lose", tvar="gamenum", csunit="Team1", pad.ts = F) )
   itrain.dur <- do.call("rbind", sp.itrain.dur)
   
-  time.dep <- glmer(lose~bs(spell, df=3)+(1|Team1)+(1|Team1ast)+(1|Team1to)+(1|Team1stl), data=itrain.dur, family=binomial(link="probit"), na.action=na.exclude)
+  time.dep <- glmer(lose~bs(spell, df=3)+(1|Team1)+(1|days.since.last.game)+(1|Team1ast)+(1|Team1to)+(1|Team1stl), data=itrain.dur, family=binomial(link="probit"), na.action=na.exclude)
   itrain.dur$team.survscores <- predict(time.dep, type="response")
   team.survscores <- aggregate(team.survscores~Team1+Season, median, data=itrain.dur)#Probability of losing 
   names(team.survscores)[1] <- "Team"
@@ -60,6 +72,8 @@ createEnduranceScores <- function(season.file, first.season=first.training.seaso
 
 ##############
 
-#df <- getSeasonData(season.file)
+#
+
+#df <- createEnduranceScores(season.file)
 
 

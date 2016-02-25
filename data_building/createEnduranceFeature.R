@@ -37,7 +37,8 @@ daynum.funk <- function(x){
 
 
 createEnduranceScores <- function(season.file, first.season=first.training.season, last.season=last.training.season){
-  df <- read.csv(season.file)
+	df<-season.file
+  # df <- read.csv(season.file)
   #get the correct seasons
   df <- df[ which(df$Season >= first.season & df$Season <= last.season), ]
   #the data structure has no variance because it is focused on the outcome, so re-order columns according to team number rather than game outcome
@@ -77,3 +78,4 @@ createEnduranceScores <- function(season.file, first.season=first.training.seaso
 #df <- createEnduranceScores(season.file)
 
 
+team.survscores<-createEnduranceScores(season.file,first.season = options('first.training.season')[[1]],last.season = options('last.validation.season')[[1]])

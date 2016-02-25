@@ -19,7 +19,7 @@ data_recipe <- list(
 		# This should always include builder_script.R so that the correct get_features
 		# and get team data functions get loaded. Any other scripts can be named in
 		# this list along with this one.
-
+		"data_building/createEnduranceFeature.R",
 		"data_building/builder_script.R"
 		),
 	
@@ -37,7 +37,9 @@ data_recipe <- list(
 		
 		# feature names in this list should be the name of the feature to add 
 		
-		Seed='2016_competition/data_2016_specific/kaggle_dataset/TourneySeeds.rds'
+		Seed='2016_competition/data_2016_specific/kaggle_dataset/TourneySeeds.rds',
+		# if the feature is built by a builder script, then enter its file name as NULL. The object returned by the builder script must be the same name as the feature name for it to be properly renamed. For example, the 
+		team.survscores="NULL"
 	),
 	#Define training period for features
 	first.training.season = 2005,

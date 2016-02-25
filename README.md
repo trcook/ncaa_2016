@@ -4,7 +4,7 @@
 # ncaa_2016
 NCAA tournament pipeline
 
-![](./ActivityDiagram1.svg)
+![](ActivityDiagram1.svg)
 
 # General principles
 

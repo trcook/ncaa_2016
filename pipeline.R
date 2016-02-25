@@ -46,6 +46,9 @@ gsub(x,pattern='.*\\.([^\\.]+?)$',replacement='\\1')
 
 	load_list<-function(x){
 		for(i in seq_along(x)){
+			if(x[[i]]=='NULL'){
+				next()
+			}
 			load_dat<-x[[i]]
 			name_dat<-names(x)[[i]]
 			ext<-ext_getter(load_dat)

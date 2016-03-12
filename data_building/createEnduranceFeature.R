@@ -30,8 +30,18 @@ daynum.funk <- function(x){
   x$days.since.last.game <- x$Daynum - c(NA, x$Daynum[1:(n-1)])
     }
   }
+  if(dim(x)[1] < 3){
+    x$days.since.last.game <- NA
+  }
+  
   #Remove teams that play less than 3 games
-  if(dim(x)[1] < 3){x <- NULL}
+  if(dim(x)[1] >= 3){ 
+    x <- btscs(x, event="lose", tvar="gamenum", csunit="Team1", pad.ts = F)
+  }
+  if(dim(x)[1] < 3){
+    x$orig_order <- NA
+    x$spell <- 0
+  }
   return(x)
 }
 
@@ -57,11 +67,10 @@ createEnduranceScores <- function(season.file, first.season=first.training.seaso
   sp.itrain.dur <- split(df, fseason)
   #create game number variable
   sp.itrain.dur <- lapply(sp.itrain.dur, daynum.funk)
-  sp.itrain.dur <- sp.itrain.dur[!sapply(sp.itrain.dur, is.null)]
-  
+
   #calculate survival estimates for each team - likelihood of surviving a game
-  sp.itrain.dur <- lapply(sp.itrain.dur, function(x) btscs(x, event="lose", tvar="gamenum", csunit="Team1", pad.ts = F) )
   itrain.dur <- do.call("rbind", sp.itrain.dur)
+  itrain.dur$days.since.last.game[is.na(itrain.dur$days.since.last.game)] <- mean(itrain.dur$days.since.last.game, na.rm=T)
   
   time.dep <- glmer(lose~bs(spell, df=3)+(1|Team1)+(1|days.since.last.game)+(1|Team1ast)+(1|Team1to)+(1|Team1stl), data=itrain.dur, family=binomial(link="probit"), na.action=na.exclude)
   itrain.dur$team.survscores <- predict(time.dep, type="response")

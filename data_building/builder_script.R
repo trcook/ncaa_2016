@@ -1,7 +1,5 @@
 library(reshape)
 #Define training period for features
-first.training.season <- 2005
-last.training.season <- 2011
 
 #Get the season outcomes data and recode so that it has a more useable structure
 getTourneyData <- function(tourney.file, first.season=options("first.training.season"), last.season=options("last.training.season")){

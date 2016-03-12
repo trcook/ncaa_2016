@@ -13,13 +13,22 @@ library(parallel)
 #tourney.file <- "TourneyCompactResults.csv"
 
 #Define training period for features
-#first.training.season <- 2005
-#last.training.season <- 2011
+#first.training.season <- 1995
+#last.training.season <- 2016
 
 makeRank <- function(x){
   pr <- page.rank(graph.data.frame(d=data.frame(from=x$Lteam, to=x$Wteam), directed=T ))$vector
   pr <- data.frame(Team=names(pr), Season=unique(x$Season), pagerank=pr)
 }
+
+getSeasonData <- function(season.file, first.season=first.training.season, last.season=last.training.season){
+  df <- read.csv(season.file)
+  #get the correct seasons
+  df <- df[ which(df$Season >= first.season & df$Season <= last.season), ]
+  df <- df[, c("Season", "Daynum", "Wteam", "Lteam", "Numot")]
+  return(df)
+}
+
 
 doPageRank <- function(season.file, first.season=first.training.season, last.season=last.training.season){
   df <- read.csv(season.file)
@@ -32,7 +41,7 @@ doPageRank <- function(season.file, first.season=first.training.season, last.sea
   return(pr)
 }
 
-#pr <- doPageRank(season.file)
+#pr <- doPageRank(season.file, first.season = 1995, last.season = 2016)
 
-#write.csv(pr, "PageRankfeature.csv", row.names = F)
+#saveRDS(pr, "~/Google Drive/NCAA Team Stuff/NCAA/2016_competition/data_2016_specific/other_data/pagerank.rds")
 

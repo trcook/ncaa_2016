@@ -2,7 +2,7 @@
 library(caret)
 
 #setwd("/Volumes/TINY CRYPT/papers/Personal/NCAA/2016 Kaggle Data/march-machine-learning-mania-2016-v1")
-#seeds <- read.csv("TourneySeeds.csv")
+#seeds <- "TourneySeeds.csv"
 
 #Make seed
 makeSeedFeature <- function(seeds.file){
@@ -11,5 +11,6 @@ makeSeedFeature <- function(seeds.file){
   return(seeds)
 }
 
+seeds <- makeSeedFeature(seeds.file="TourneySeeds.csv")
 
-#write.csv(seeds, "TourneySeeds_feature.csv", row.names=F)
+#saveRDS(seeds, "~/Google Drive/NCAA Team Stuff/NCAA/2016_competition/data_2016_specific/other_data/seedsV2.rds")

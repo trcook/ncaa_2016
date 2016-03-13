@@ -8,29 +8,20 @@
 
 require(caret)
 require(caretEnsemble)
-require(caret)
-require(caretEnsemble)
-#require(h2o)
 require(doSNOW)
 require(parallel)
 require(knitr)
 
 ## ----set training control-----------------------------------------------------
-tc<-trainControl(method = 'cv',number = 2)
+tc<-trainControl(method = 'cv',number = 2,classProbs=TRUE)
 
 ## ----set tunelist configuration---------------------------------------------------
-
+#' Here is where you add new models and params for model training
 tl=list(
 	rf=caretModelSpec(method = 'RRF'),
-		bagFDA=caretModelSpec(method='fda'),
-													# tuneGrid=expand.grid(degree=c(1,2,3),nprune=c(1,2,3))),
+		bagFDA=caretModelSpec(method='fda',
+													tuneGrid=expand.grid(degree=c(1,2,3),nprune=c(1,2,3))),
 		adabag=caretModelSpec(method='AdaBag')
-		
-#    ,dnn=caretModelSpec(method='dnn',
-#     tuneGrid=expand.grid(layer1=c(3),layer2=c(5),layer3=c(2),
-#       hidden_dropout=c(.1,.2,.3),visible_dropout=c(.1,.2,.3)))
-#    ,glmboost=caretModelSpec(
-#     method='glmboost',tuneGrid=expand.grid(prune=T,mstop=c(100,200,300)) )
 )
 
 ## ---- run ensamble model ------
@@ -45,7 +36,6 @@ model_list <- caretList(
 	y=training_data$win,x=training_data[,train_features,with=F],
   tuneList=tl,
   trControl = tc
-#,methodList=c('cubist')
   )
 
-# train(form=formula(Team1win~.,data=training_data), data=training_data[,train_features,with=F],method='rf')
+model<-caretEnsemble(model_list)

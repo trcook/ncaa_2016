@@ -19,7 +19,10 @@ data_recipe <- list(
 		# This should always include builder_script.R so that the correct get_features
 		# and get team data functions get loaded. Any other scripts can be named in
 		# this list along with this one.
-		"data_building/createEnduranceFeature.R",
+		
+		# This file takes forever to run, so I saved it's results to the ncaa folder. To regenerate the endurance scores, uncomment the next line and change team.survscores in data_to_load to 'NULL'
+		# "data_building/createEnduranceFeature.R",
+
 		#"data_building/createCBSRPI.R",
 		#"data_building/createCBSSOS.R",
 		#"data_building/createOrdinalsFeature.R",
@@ -43,7 +46,7 @@ data_recipe <- list(
 		
 		Seed='2016_competition/data_2016_specific/other_data/seedsV2.rds',
 		# if the feature is built by a builder script, then enter its file name as NULL. The object returned by the builder script must be the same name as the feature name for it to be properly renamed. For example, the 
-		team.survscores = "NULL", 
+		team.survscores = "2016_competition/data_2016_specific/other_data/team.survscores.rds", 
 		RPI = "2016_competition/data_2016_specific/other_data/CBSRPI.rds",
 		SOS = "2016_competition/data_2016_specific/other_data/CBSSOS.rds", 
 		orank = "2016_competition/data_2016_specific/other_data/orank.rds",
@@ -55,7 +58,7 @@ data_recipe <- list(
 	last.training.season = 2011,
 	first.validation.season=2012,
 	last.validation.season=2015,
-	training_split=.3
+	training_split=0 # 
 	
 )
 
@@ -64,7 +67,9 @@ data_recipe <- list(
 model_recipe <-	list(
 	model_files = list(
 		#this should be relative to the repository root
-		"modeling_scripts/sample_model.R"
+		# This will run the caret models and produce the appropriate model
+		# This script will run adabag, regularized random forest and 
+		"modeling_scripts/caret_model2016.R"
 		),
 	output_file='submission.csv'
 	)

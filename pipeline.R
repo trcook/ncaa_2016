@@ -67,12 +67,13 @@ submission_output<-function(model_=model,validation_data_=validation_data,output
 	if(is.null(options('output_file')[[1]])){
 		output_file_name='submission.csv'
 	}
-	validation_data<-data.table(validation_data_)
-	validation_data[,Pred:=predict(model_,cbind(.SD),type='response')]
-	validation_data[,Id:=paste0(Season,'_',Team1,'_',Team2)]
-	out<-validation_data[,.(Id,Pred)]
-	write.csv(out,file=repo_wd(output_file_name),row.names = F)
-	return(out)
+	validation_data_<-data.table::copy(data.table(validation_data_))
+	validation_data_[,Pred:=predict(model_,newdata=.SD)]
+	return(validation_data_)
+ 	validation_data_[,Id:=paste0(Season,'_',Team1,'_',Team2)]
+ 	out<-validation_data_[,.(Id,Pred)]
+ 	write.csv(out,file=repo_wd(output_file_name),row.names = F)
+ 	return(out)
 }
 
 

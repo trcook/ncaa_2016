@@ -11,14 +11,18 @@ testObject<-function(object){
 #' This will put all the parts of the config.yaml into options by top-level key. 
 
 setup_opts<-function(){
+	tmp<-file.path(tempfile(fileext = '.yaml'))
 	if(file.exists("config.yaml")){
-		options(yaml::yaml.load_file('config.yaml'))
+		file.copy(from='config.yaml',to=tmp)
+		print(tmp)
+		print(file.exists(tmp))
+		options(yaml::yaml.load_file(tmp))
 	}else{
 		source("config.R")
-	sink("config.yaml")
+	sink(tmp)
 	cat(yaml::as.yaml(c(base_config,data_recipe,model_recipe)))
 	sink()
-	options(yaml::yaml.load_file('config.yaml'))
+	options(yaml::yaml.load_file(tmp))
 	}
 
 	if(any(

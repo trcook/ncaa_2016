@@ -19,9 +19,9 @@ tc<-trainControl(method = 'cv',number = 2,classProbs=TRUE)
 #' Here is where you add new models and params for model training
 tl=list(
 	rf=caretModelSpec(method = 'RRF'),
-		bagFDA=caretModelSpec(method='fda',
-													tuneGrid=expand.grid(degree=c(1,2,3),nprune=c(1,2,3))),
-		adabag=caretModelSpec(method='AdaBag')
+	bagFDA=caretModelSpec(method='fda',
+											tuneGrid=expand.grid(degree=c(1,2,3),nprune=c(11,20,30))),
+		 adabag=caretModelSpec(method='AdaBag')
 )
 
 ## ---- run ensamble model ------

@@ -11,7 +11,7 @@ require(caretEnsemble)
 #require(doSNOW)
 require(parallel)
 require(knitr)
-
+require(Metrics)
 #index <- which(training_data$Season %in% 2003:2010) #set the training index explicitly
 
 ## ----set training control-----------------------------------------------------
@@ -20,15 +20,15 @@ tc<-trainControl(method = 'cv',number = 2,classProbs=TRUE,  summaryFunction = mu
 ## ----set tunelist configuration---------------------------------------------------
 #' Here is where you add new models and params for model training
 tl=list(
-  rf=caretModelSpec(method = 'RRF'),
-  bagFDA=caretModelSpec(method='fda', metric="logLoss"),
-  #tuneGrid=expand.grid(degree=c(1,2,3),nprune=c(1,2,3)))#,
-  adabag=caretModelSpec(method='AdaBag', metric="logLoss"), 
-  ada=caretModelSpec(method='ada', metric="logLoss"),
-  lda=caretModelSpec(method='lda', metric="logLoss"),
-  nb=caretModelSpec(method='nb', metric="logLoss"),
-  gbm=caretModelSpec(method='gbm', metric="logLoss"),
-  evtree=caretModelSpec(method='evtree', metric="logLoss")
+   rf=caretModelSpec(method = 'RRF'),
+   bagFDA=caretModelSpec(method='fda', metric="logLoss"),
+   adabag=caretModelSpec(method='AdaBag', metric="logLoss"), 
+   ada=caretModelSpec(method='ada', metric="logLoss"),
+# 
+   nb=caretModelSpec(method='nb', metric="logLoss"),
+   gbm=caretModelSpec(method='gbm', metric="logLoss"),
+   evtree=caretModelSpec(method='evtree', metric="logLoss"),
+   lda=caretModelSpec(method='lda', metric="logLoss")
 )
 
 ## ---- run ensamble model ------ 

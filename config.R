@@ -71,7 +71,9 @@ model_recipe <-	list(
     #this should be relative to the repository root
     # This will run the caret models and produce the appropriate model
     # This script will run adabag, regularized random forest and 
+  	"modeling_scripts/multiclasssummary.R",
     "modeling_scripts/caret_model2016.R"
+    #"modeling_scripts/bracket_2015_printable.R"
   ),
   output_file='submission.csv'
 )

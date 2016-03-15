@@ -72,10 +72,12 @@ submission_output<-function(model_=model,validation_data_=validation_data,output
 		output_file_name='submission.csv'
 	}
 	validation_data_<-data.table::copy(data.table(validation_data_))
-	validation_data_[,Pred:=predict(model_,newdata=.SD)]
-	return(validation_data_)
+	if(exists('train_features',envir = .GlobalEnv)){
+		sdnames=train_features
+	}else{sdnames=names(validation_data_)}
+	validation_data_[,Pred:=predict(model_,newdata=.SD,type='prob')[,1],.SDcols=sdnames]
  	validation_data_[,Id:=paste0(Season,'_',Team1,'_',Team2)]
- 	out<-validation_data_[,.(Id,Pred)]
+ 	out<-validation_data_[,cbind(Id,Pred)]
  	write.csv(out,file=repo_wd(output_file_name),row.names = F)
  	return(out)
 }
@@ -104,4 +106,4 @@ run_list(options("data_building_files")[[1]])
 run_list(options("model_files")[[1]])
 
 
-submission_output(model_=model,validation_data_=validation_data,output_file_name=options('output_file'))
+predictions<-submission_output(model_=model,validation_data_=validation_data,output_file_name=options('output_file'))

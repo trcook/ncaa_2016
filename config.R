@@ -60,8 +60,8 @@ data_recipe <- list(
   last.training.season = 2014,
   first.validation.season=2015,
   last.validation.season=2017,
-  training_split=0 # 
-  
+  training_split=0, # 
+  season_override=2016
 )
 
 

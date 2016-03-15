@@ -67,7 +67,7 @@ run_list<-function(x){
 	}
 	}
 
-submission_output<-function(model_=model,validation_data_=validation_data,output_file_name=options('output_file')){
+submission_output<-function(model_=model,validation_data_=validation_data,output_file_name=options('output_file'),season_override=NULL){
 	if(is.null(options('output_file')[[1]])){
 		output_file_name='submission.csv'
 	}
@@ -76,7 +76,12 @@ submission_output<-function(model_=model,validation_data_=validation_data,output
 		sdnames=train_features
 	}else{sdnames=names(validation_data_)}
 	validation_data_[,Pred:=predict(model_,newdata=.SD,type='prob')[,1],.SDcols=sdnames]
- 	validation_data_[,Id:=paste0(Season,'_',Team1,'_',Team2)]
+	if(!is.null(season_override)){
+		validation_data_[,Id:=paste0(season_override,'_',Team1,'_',Team2)]
+	}else{
+	validation_data_[,Id:=paste0(Season,'_',Team1,'_',Team2)]	
+	}
+ 	
  	out<-validation_data_[,cbind(Id,Pred)]
  	write.csv(out,file=repo_wd(output_file_name),row.names = F)
  	return(out)
@@ -106,4 +111,4 @@ run_list(options("data_building_files")[[1]])
 run_list(options("model_files")[[1]])
 
 
-predictions<-submission_output(model_=model,validation_data_=validation_data,output_file_name=options('output_file'))
+predictions<-submission_output(model_=model,validation_data_=validation_data,output_file_name=options('output_file'),season_override=options("season_override"))

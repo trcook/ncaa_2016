@@ -57,9 +57,9 @@ data_recipe <- list(
   ),
   #Define training period for features
   first.training.season = 1995,
-  last.training.season = 2011,
-  first.validation.season=2012,
-  last.validation.season=2015,
+  last.training.season = 2014,
+  first.validation.season=2015,
+  last.validation.season=2017,
   training_split=0 # 
   
 )

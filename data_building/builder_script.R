@@ -71,6 +71,15 @@ for(i in seq_along(x)){
 	}
 }
 
+getFeature_list_final<-function(x){ #assign to final data
+  # get features as appropriate
+  for(i in seq_along(x)){
+    feat_name=names(x)[[i]]
+    feat_df = eval(as.name(feat_name))
+    assign("final_data",getFinal(feature_df = feat_df,final_data = final_data,featurename = feat_name),envir = .GlobalEnv)
+  }
+}
+
 test_train_validate_split<-function(
 	dat=tourneydata,split_=.3, 
 	first.season=options("first.training.season")[[1]], 
@@ -100,8 +109,11 @@ test_train_validate_split<-function(
 # now, run the actual functions:
 
 tourneydata <- getTourneyData(tourney.file)
+final_data <- makeFinal()
 
+#getting the features with them
 getFeature_list(options("features_to_add")[[1]])
+getFeature_list_final(options("features_to_add")[[1]])
 
 # This should be the last step since it will produce a split that incorporates all the requisite features. 
 test_train_validate_split()

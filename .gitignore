@@ -9,3 +9,4 @@ NCAA_2016.Rproj
 .Rapp.history
 *.csv
 **/*.csv
+config.yaml.old

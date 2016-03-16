@@ -20,15 +20,14 @@ tc<-trainControl(method = 'cv',number = 2,classProbs=TRUE,  summaryFunction = mu
 ## ----set tunelist configuration---------------------------------------------------
 #' Here is where you add new models and params for model training
 tl=list(
-   rf=caretModelSpec(method = 'RRF'),
-   bagFDA=caretModelSpec(method='fda', metric="logLoss"),
-   adabag=caretModelSpec(method='AdaBag', metric="logLoss"), 
-   ada=caretModelSpec(method='ada', metric="logLoss"),
-# 
-   nb=caretModelSpec(method='nb', metric="logLoss"),
-   gbm=caretModelSpec(method='gbm', metric="logLoss"),
-   evtree=caretModelSpec(method='evtree', metric="logLoss"),
-   lda=caretModelSpec(method='lda', metric="logLoss")
+    rf=caretModelSpec(method = 'RRF'),
+    bagFDA=caretModelSpec(method='fda', metric="logLoss"),
+    adabag=caretModelSpec(method='AdaBag', metric="logLoss"), 
+    ada=caretModelSpec(method='ada', metric="logLoss"),
+    nb=caretModelSpec(method='nb', metric="logLoss"),
+    gbm=caretModelSpec(method='gbm', metric="logLoss"),
+    evtree=caretModelSpec(method='evtree', metric="logLoss"),
+   lda=caretModelSpec(method='lda2', metric="logLoss")
 )
 
 ## ---- run ensamble model ------ 
@@ -38,9 +37,9 @@ train_features=c("Season", "Daynum", "Team1Seed", "Team2Seed", "Team1team.survsc
                  "Team1orank", "Team2orank", "Team1pagerank", "Team2pagerank", "Team1CBSNCRank", "Team2CBSNCRank",
                  "Team1powerScore", "Team2powerScore")
 
-
+train_dat<-training_data[complete.cases(training_data[,.SD,.SDcols=train_features])]
 model_list <- caretList(
-  y=training_data$win,x=training_data[,train_features,with=F],
+  y=train_dat$win,x=train_dat[,train_features,with=F],
   tuneList=tl,
   trControl = tc
 )

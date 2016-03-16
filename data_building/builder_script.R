@@ -21,11 +21,12 @@ getTourneyData <- function(tourney.file, first.season=options("first.training.se
   # now, update with teams for the current tournament
 	seeds<-data.table(read.csv(ncaa_wd('2016_competition/data_2016_specific/kaggle_dataset/TourneySeeds.csv')))
 	teams2016<-seeds[Season==2016,Team]
-	matchups2016<-(cbind(2016,t(combn(teams,2))))
+	matchups2016<-(cbind(2016,t(combn(teams2016,2))))
 	
 	# this makes sure matchups 2016 is equal length to tourneyfile and same names
 	num_empty_cols2016<-length(names(tourney.file))-3
 	matchups2016<-data.frame(cbind(matchups2016,matrix(nrow=length(matchups2016[,1]),ncol=num_empty_cols2016)))
+	# make sure names line up properly
 	names(matchups2016)<-c("Season","Team1","Team2",setdiff(names(tourney.file),c("Season","Team1","Team2")))
 	
 	# now we rbind

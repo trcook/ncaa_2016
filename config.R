@@ -27,7 +27,8 @@ data_recipe <- list(
     #"data_building/createCBSSOS.R",
     #"data_building/createOrdinalsFeature.R",
     #"data_building/createPowerFeature.R",
-    "data_building/builder_script.R"
+    "data_building/builder_script.R",
+    'data_building/impute.R'
   ),
   
   data_to_load = list(

@@ -14,11 +14,25 @@ getTourneyData <- function(tourney.file, first.season=options("first.training.se
   tourney.file$Team2score <- ifelse(tourney.file$code==1, tourney.file$Lscore, tourney.file$Wscore)
   tourney.file$win <- as.factor(ifelse(tourney.file$Team1score>tourney.file$Team2score, "win", "lose"))
   # I find it difficult to work with factors like this in modeling situations.
-    tourney.file$Team1win <-ifelse(tourney.file$Team1score>tourney.file$Team2score, 1, 0)
+  tourney.file$Team1win <-ifelse(tourney.file$Team1score>tourney.file$Team2score, 1, 0)
 
   
   tourney.file <- tourney.file[, c("Season", "Daynum", "Team1", "Team2", "Team1score", "Team2score", "win","Team1win", "Numot")]
-  return(tourney.file)
+  # now, update with teams for the current tournament
+	seeds<-data.table(read.csv(ncaa_wd('2016_competition/data_2016_specific/kaggle_dataset/TourneySeeds.csv')))
+	teams2016<-seeds[Season==2016,Team]
+	matchups2016<-(cbind(2016,t(combn(teams,2))))
+	
+	# this makes sure matchups 2016 is equal length to tourneyfile and same names
+	num_empty_cols2016<-length(names(tourney.file))-3
+	matchups2016<-data.frame(cbind(matchups2016,matrix(nrow=length(matchups2016[,1]),ncol=num_empty_cols2016)))
+	names(matchups2016)<-c("Season","Team1","Team2",setdiff(names(tourney.file),c("Season","Team1","Team2")))
+	
+	# now we rbind
+	tourney.file<-rbind(tourney.file,matchups2016)
+	
+	
+	return(tourney.file)
 }
 
 #get feature and merge it into the desired tourney training/testing file for analysis
@@ -28,13 +42,12 @@ getFeature <- function(feature_df, tourneydata, featurename=featurename){
   featurename.regex <- paste("^", featurename, sep="")
   #Merge and assign feature names by team matchup
   
-  df <- merge(tourneydata, feature, by.x=c("Team1", "Season"), by.y=c("Team", "Season"))
+  df <- merge(tourneydata, feature, by.x=c("Team1", "Season"), by.y=c("Team", "Season"),all.x=TRUE)
   names(df)[grepl(featurename.regex, names(df))] <- paste("Team1", featurename, sep="")
-  df <- merge(df, feature, by.x=c("Team2", "Season"), by.y=c("Team", "Season"))
+  df <- merge(df, feature, by.x=c("Team2", "Season"), by.y=c("Team", "Season"),all.x=TRUE)
   names(df)[grepl(featurename.regex, names(df))] <- paste("Team2", featurename, sep="")
   return(df)
 }
-
 
 
 getFeature_list<-function(x){

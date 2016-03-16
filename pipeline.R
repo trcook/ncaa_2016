@@ -76,12 +76,11 @@ submission_output<-function(model_=model,validation_data_=validation_data,output
 		sdnames=train_features
 	}else{sdnames=names(validation_data_)}
 	validation_data_[,Pred:=predict(model_,newdata=.SD,type='prob')[,1],.SDcols=sdnames]
-	if(!is.null(season_override)){
-		validation_data_[,Id:=paste0(season_override,'_',Team1,'_',Team2)]
-	}else{
-	validation_data_[,Id:=paste0(Season,'_',Team1,'_',Team2)]	
-	}
+	
  	
+	
+	validation_data_[,Id:=paste0(Season,'_',Team1,'_',Team2)]	
+	
  	out<-validation_data_[,cbind(Id,Pred)]
  	write.csv(out,file=repo_wd(output_file_name),row.names = F)
  	return(out)

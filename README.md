@@ -4,11 +4,19 @@ name: site
 
 # ncaa_2016 kaggle competition
 
+Team Members: 
+
+- [Stefan Wojcik](http://spot.colorado.edu/~stwo0664/index.html)
+- [Thomas Cook](www.thomasrcook.com)
+
+
+
 ![](bracket.png)
 
 
 
 # NCAA tournament pipeline
+The workhorse for this year's predictions was a caret ensembe model fed through a pipeline that assembeled data. 
 
 ![](ActivityDiagram1.png)
 

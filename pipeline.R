@@ -126,8 +126,8 @@ if("kaggleNCAA" %in% installed.packages()==F){
 	require(kaggleNCAA)
 }
 
-df <- kaggleNCAA::parseBracket(f = repo_wd("submission.csv"))
-sim <- kaggleNCAA::simTourney(df, 1000, year=2016, progress=TRUE)
+df <- kaggleNCAA::parseBracket(f = repo_wd("risky_submission.csv"))
+sim <- kaggleNCAA::simTourney(df, 100, year=2016, progress=TRUE)
 bracket <- kaggleNCAA::extractBracket(sim)
 
 x=8

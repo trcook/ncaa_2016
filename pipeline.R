@@ -109,5 +109,32 @@ run_list(options("data_building_files")[[1]])
 
 run_list(options("model_files")[[1]])
 
-
 predictions<-submission_output(model_=model,validation_data_=validation_data,output_file_name=options('output_file'),season_override=options("season_override"))
+
+
+# produce bracket
+
+if("kaggleNCAA" %in% installed.packages()==F){
+	devtools::install_github('zachmayer/kaggleNCAA')
+	require(kaggleNCAA)
+}
+
+df <- kaggleNCAA::parseBracket(f = repo_wd("submission.csv"))
+sim <- kaggleNCAA::simTourney(df, 100, year=2016, progress=TRUE)
+bracket <- kaggleNCAA::extractBracket(sim)
+
+x=8
+y=x/1.777778
+
+png(filename = repo_wd('bracket.png'),width = x,height = y,units = 'in',res=300,pointsize = 8.5)
+print(kaggleNCAA::printableBracket(bracket,add_prob = T,add_seed = F))
+dev.off()
+
+
+pdf(file = repo_wd("bracket.pdf"),width=x,height = y,pointsize = 8.5)
+print(kaggleNCAA::printableBracket(bracket,add_prob = T,add_seed = F))
+dev.off()
+
+
+
+

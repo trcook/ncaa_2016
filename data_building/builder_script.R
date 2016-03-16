@@ -21,6 +21,19 @@ getTourneyData <- function(tourney.file, first.season=options("first.training.se
   return(tourney.file)
 }
 
+makeFinal <- function(){ #makes final submission data
+  seeds <- readRDS("~/Google Drive/NCAA Team Stuff/NCAA/2016_competition/data_2016_specific/other_data/seedsV2.rds")
+  seeds <- seeds[ seeds$Season==2016, ]
+  teams <- data.frame(t(combn(seeds$Team, 2)))
+  teams.max <- apply(teams, 1, function(x) max(x))
+  teams.min <- apply(teams, 1, function(x) min(x))
+  minmax <- cbind(teams.min, teams.max)
+  #, Id = paste("2016", teams.min, teams.max, sep="_")
+  teams <- data.frame(Team2 = teams.max, Season = 2016, Team1 = teams.min, Daynum=137)
+  return(teams)  
+}
+
+
 #get feature and merge it into the desired tourney training/testing file for analysis
 getFeature <- function(feature_df, tourneydata, featurename=featurename){
   #all features can be assumed to have the Kaggle Team ID's and Seasons

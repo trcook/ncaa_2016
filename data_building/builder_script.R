@@ -35,6 +35,18 @@ getFeature <- function(feature_df, tourneydata, featurename=featurename){
   return(df)
 }
 
+getFinal <- function(feature_df, final_data, featurename=featurename){
+  #all features can be assumed to have the Kaggle Team ID's and Seasons
+  feature<-feature_df
+  featurename.regex <- paste("^", featurename, sep="")
+  #Merge and assign feature names by team matchup
+  
+  df <- merge(final_data, feature, by.x=c("Team1", "Season"), by.y=c("Team", "Season"))
+  names(df)[grepl(featurename.regex, names(df))] <- paste("Team1", featurename, sep="")
+  df <- merge(df, feature, by.x=c("Team2", "Season"), by.y=c("Team", "Season"))
+  names(df)[grepl(featurename.regex, names(df))] <- paste("Team2", featurename, sep="")
+  return(df)
+}
 
 
 getFeature_list<-function(x){

@@ -67,7 +67,7 @@ run_list<-function(x){
 	}
 	}
 
-submission_output<-function(model_=model,validation_data_=validation_data,output_file_name=options('output_file'),season_override=NULL){
+submission_output<-function(model_=model,validation_data_=validation_data,output_file_name=options('output_file'),season_override=NULL,low_thresh=.1,high_thresh=.9){
 	if(is.null(options('output_file')[[1]])){
 		output_file_name='submission.csv'
 	}
@@ -83,7 +83,13 @@ submission_output<-function(model_=model,validation_data_=validation_data,output
 	
  	out<-validation_data_[,cbind(Id,Pred)]
  	write.csv(out,file=repo_wd(output_file_name),row.names = F)
- 	return(out)
+ 	 	
+ 	out2<-data.table(out)
+	out2[Pred<=low_thresh,Pred:=0]
+	out2[Pred>=high_thresh,Pred:=1]
+ 	write.csv(out2,file=repo_wd(paste('risky_',output_file_name,sep='')),row.names = F)
+ 	 	
+return(list(submission=out,risky_submission=out2))
 }
 
 
@@ -109,8 +115,9 @@ run_list(options("data_building_files")[[1]])
 
 run_list(options("model_files")[[1]])
 
-predictions<-submission_output(model_=model,validation_data_=validation_data,output_file_name=options('output_file'),season_override=options("season_override"))
+predictions<-submission_output(model_=model,validation_data_=validation_data,output_file_name=options('output_file'),season_override=options("season_override"),low_thresh = .1,high_thresh = .9)
 
+#produce second-prediction file, rounding up/down at .05 and .95
 
 # produce bracket
 
@@ -120,7 +127,7 @@ if("kaggleNCAA" %in% installed.packages()==F){
 }
 
 df <- kaggleNCAA::parseBracket(f = repo_wd("submission.csv"))
-sim <- kaggleNCAA::simTourney(df, 100, year=2016, progress=TRUE)
+sim <- kaggleNCAA::simTourney(df, 1000, year=2016, progress=TRUE)
 bracket <- kaggleNCAA::extractBracket(sim)
 
 x=8

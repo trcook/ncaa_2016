@@ -26,9 +26,12 @@ getTourneyData <- function(tourney.file, first.season=options("first.training.se
 	# this makes sure matchups 2016 is equal length to tourneyfile and same names
 	num_empty_cols2016<-length(names(tourney.file))-3
 	matchups2016<-data.frame(cbind(matchups2016,matrix(nrow=length(matchups2016[,1]),ncol=num_empty_cols2016)))
-	# make sure names line up properly
+ # make sure names line up properly
 	names(matchups2016)<-c("Season","Team1","Team2",setdiff(names(tourney.file),c("Season","Team1","Team2")))
-	
+	tmin<-apply(matchups2016[,c("Team1","Team2")],1,min)
+	tmax<-apply(matchups2016[,c("Team1","Team2")],1,max)
+	matchups2016$Team1<-tmin
+	matchups2016$Team2<-tmax
 	# now we rbind
 	tourney.file<-rbind(tourney.file,matchups2016)
 	

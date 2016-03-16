@@ -48,6 +48,7 @@ model_list <- caretList(
 model <- caretStack(model_list, method="glm", trControl=trainControl(classProbs=TRUE,  summaryFunction = multiClassSummary, savePredictions=TRUE),  metric="logLoss")
 
 
+
 #print out the scores 
 showMeScores <- function(model, validation_data){
   predicted <- predict(model, type="raw", newdata=validation_data)

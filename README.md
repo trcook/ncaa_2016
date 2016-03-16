@@ -1,8 +1,10 @@
+# ncaa_2016 kaggle competition
+
 ![](bracket.png)
 
 
-# ncaa_2016
-NCAA tournament pipeline
+
+# NCAA tournament pipeline
 
 ![](ActivityDiagram1.png)
 

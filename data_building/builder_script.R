@@ -12,7 +12,7 @@ getTourneyData <- function(tourney.file, first.season=options("first.training.se
   tourney.file$code <- apply(tourney.file[, c("Wteam", "Lteam")], 1, function(x) which.min(x) )
   tourney.file$Team1score <- ifelse(tourney.file$code==1, tourney.file$Wscore, tourney.file$Lscore) 
   tourney.file$Team2score <- ifelse(tourney.file$code==1, tourney.file$Lscore, tourney.file$Wscore)
-  tourney.file$win <- as.factor(ifelse(tourney.file$Team1score>tourney.file$Team2score, "win", "lose"))
+  tourney.file$win <- as.factor(ifelse(tourney.file$Team1score>tourney.file$Team2score, "lose", "win"))
   # I find it difficult to work with factors like this in modeling situations.
   tourney.file$Team1win <-ifelse(tourney.file$Team1score>tourney.file$Team2score, 1, 0)
 
@@ -32,6 +32,7 @@ getTourneyData <- function(tourney.file, first.season=options("first.training.se
 	tmax<-apply(matchups2016[,c("Team1","Team2")],1,max)
 	matchups2016$Team1<-tmin
 	matchups2016$Team2<-tmax
+	matchups2016<-matchups2016[,c("Season", "Daynum", "Team1", "Team2", "Team1score", "Team2score", "win","Team1win", "Numot")]
 	# now we rbind
 	tourney.file<-rbind(tourney.file,matchups2016)
 	

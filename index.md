@@ -7,6 +7,7 @@ name: index
 ![](bracket.png)
 
 
+[![DOI](https://zenodo.org/badge/52184011.svg)](https://zenodo.org/badge/latestdoi/52184011)
 
 # NCAA tournament pipeline
 

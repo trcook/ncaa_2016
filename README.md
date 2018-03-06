@@ -4,6 +4,8 @@ name: site
 
 # ncaa_2016 kaggle competition
 
+[![DOI](https://zenodo.org/badge/52184011.svg)](https://zenodo.org/badge/latestdoi/52184011)
+
 Team Members: 
 
 - [Stefan Wojcik](http://spot.colorado.edu/~stwo0664/index.html)
